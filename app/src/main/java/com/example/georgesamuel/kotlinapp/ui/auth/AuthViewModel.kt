@@ -5,7 +5,9 @@ import com.example.georgesamuel.kotlinapp.data.repositories.UserRepository
 import com.example.georgesamuel.kotlinapp.util.ApiException
 import com.example.georgesamuel.kotlinapp.util.Coroutines
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel(
+    private val repository: UserRepository
+) : ViewModel() {
 
     var authListener: AuthListener? = null
 
@@ -17,9 +19,10 @@ class AuthViewModel : ViewModel() {
         }
         Coroutines.main{
             try {
-                val authResponse = UserRepository().userLogin(email, password)
+                val authResponse = repository.userLogin(email, password)
                 authResponse?.let {
                     authListener?.onSuccess(it.user!!)
+                    repository.saveUser(it.user!!)
                     return@main
                 }
                 authListener?.onFailure(authResponse.message!!)
@@ -28,4 +31,6 @@ class AuthViewModel : ViewModel() {
             }
         }
     }
+
+    fun getLoggedInUser() = repository.getUser()
 }

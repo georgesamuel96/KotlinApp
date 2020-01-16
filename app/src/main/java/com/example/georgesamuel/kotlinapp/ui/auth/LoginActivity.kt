@@ -1,5 +1,6 @@
 package com.example.georgesamuel.kotlinapp.ui.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,7 +8,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.georgesamuel.kotlinapp.R
+import com.example.georgesamuel.kotlinapp.data.db.AppDatabase
 import com.example.georgesamuel.kotlinapp.data.db.entities.User
+import com.example.georgesamuel.kotlinapp.data.network.MyApi
+import com.example.georgesamuel.kotlinapp.data.network.ServiceBuilder
+import com.example.georgesamuel.kotlinapp.data.repositories.UserRepository
+import com.example.georgesamuel.kotlinapp.ui.home.HomeActivity
 import com.example.georgesamuel.kotlinapp.util.hide
 import com.example.georgesamuel.kotlinapp.util.show
 import com.example.georgesamuel.kotlinapp.util.snackbar
@@ -22,8 +28,23 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
+        val myApi = ServiceBuilder.buildService(MyApi::class.java)
+        val db = AppDatabase(this)
+        val repository = UserRepository(myApi, db)
+        val factory = AuthViewModelVactory(repository)
+
+        viewModel = ViewModelProviders.of(this, factory).get(AuthViewModel::class.java)
         viewModel.authListener = this
+        viewModel.getLoggedInUser().observe(this, Observer { user ->
+//            run {
+                if (user != null) {
+                    Intent(this, HomeActivity::class.java).also {
+                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(it)
+                    }
+                }
+//            }
+        })
     }
 
     override fun onStarted() {
@@ -32,7 +53,6 @@ class LoginActivity : AppCompatActivity(), AuthListener {
 
     override fun onSuccess(user: User) {
         progress_bar.hide()
-        root_layout.snackbar("${user.name} is Logged In")
     }
 
     override fun onFailure(message: String) {
