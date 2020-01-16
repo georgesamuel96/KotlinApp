@@ -1,6 +1,7 @@
 package com.example.georgesamuel.kotlinapp.ui.auth
 
 import androidx.lifecycle.ViewModel
+import com.example.georgesamuel.kotlinapp.data.repositories.UserRepository
 
 class AuthViewModel : ViewModel() {
 
@@ -12,6 +13,7 @@ class AuthViewModel : ViewModel() {
             authListener?.onFailure("Invalid email or password")
             return
         }
-        authListener?.onSuccess()
+        val loginResponse = UserRepository().userLogin(email, password)
+        authListener!!.onSuccess(loginResponse)
     }
 }

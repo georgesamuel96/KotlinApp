@@ -3,43 +3,47 @@ package com.example.georgesamuel.kotlinapp.ui.auth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.georgesamuel.kotlinapp.R
+import com.example.georgesamuel.kotlinapp.util.hide
+import com.example.georgesamuel.kotlinapp.util.show
 import com.example.georgesamuel.kotlinapp.util.toast
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), AuthListener {
 
     lateinit var viewModel: AuthViewModel
-    lateinit var etEmail: EditText
-    lateinit var etPassword: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        etEmail = findViewById(R.id.et_email)
-        etPassword = findViewById(R.id.et_password)
 
         viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         viewModel.authListener = this
     }
 
     override fun onStarted() {
-        toast("Login Started")
+        progress_bar.show()
     }
 
-    override fun onSuccess() {
-        toast("Login Success")
+    override fun onSuccess(loginResponse: LiveData<String>) {
+
+        loginResponse.observe(this, Observer {
+            progress_bar.hide()
+            toast(it)
+        })
     }
 
     override fun onFailure(message: String) {
+        progress_bar.hide()
         toast(message)
     }
 
     fun onLoginButtonClick(view: View) {
-        val email:String = etEmail.text.toString()
-        val password: String = etPassword.text.toString()
+        val email:String = et_email.text.toString()
+        val password: String = et_password.text.toString()
         viewModel.onLoginButtonClick(email, password)
     }
 }
