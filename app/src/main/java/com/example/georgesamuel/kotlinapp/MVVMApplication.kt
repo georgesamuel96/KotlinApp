@@ -6,6 +6,7 @@ import com.example.georgesamuel.kotlinapp.data.network.NetworkConnectionIntercep
 import com.example.georgesamuel.kotlinapp.data.network.ServiceBuilder
 import com.example.georgesamuel.kotlinapp.data.repositories.UserRepository
 import com.example.georgesamuel.kotlinapp.ui.auth.AuthViewModelFactory
+import com.example.georgesamuel.kotlinapp.ui.home.profile.ProfileViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -24,5 +25,6 @@ class MVVMApplication : Application(), KodeinAware {
         bind() from singleton { AppDatabase(instance()) }
         bind() from singleton { UserRepository(instance(), instance()) }
         bind() from provider { AuthViewModelFactory(instance()) }
+        bind() from provider { ProfileViewModelFactory(instance()) }
     }
 }
