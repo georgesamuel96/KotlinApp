@@ -35,5 +35,32 @@ class AuthViewModel(
         }
     }
 
+    fun onSignupButtonClick(name: String, email: String, password: String, confirmPass: String) {
+        authListener?.onStarted()
+        if(name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPass.isEmpty()){
+            authListener?.onFailure("Invalid name, email or password")
+            return
+        }
+        else if (!password.equals(confirmPass)){
+            authListener?.onFailure("Password and confirm don't match")
+            return
+        }
+        Coroutines.main{
+            try {
+                val authResponse = repository.userSignup(name, email, password)
+                authResponse?.let {
+                    authListener?.onSuccess(it.user!!)
+                    repository.saveUser(it.user!!)
+                    return@main
+                }
+                authListener?.onFailure(authResponse.message!!)
+            } catch (e: ApiException) {
+                authListener?.onFailure(e.message!!)
+            } catch (e: NoInternetException) {
+                authListener?.onFailure(e.message!!)
+            }
+        }
+    }
+
     fun getLoggedInUser() = repository.getUser()
 }

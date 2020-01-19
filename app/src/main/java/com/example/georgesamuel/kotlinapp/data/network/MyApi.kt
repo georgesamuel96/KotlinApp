@@ -14,4 +14,10 @@ interface MyApi {
     @POST("course-apis/mvvm/login")
     suspend fun userLogin(@Field("email") email: String,
                   @Field("password") password: String): Response<AuthResponse>
+
+    @FormUrlEncoded
+    @POST("course-apis/mvvm/signup")
+    suspend fun userSignup(@Field("name") name: String,
+                           @Field("email") email: String,
+                           @Field("password") password: String): Response<AuthResponse>
 }

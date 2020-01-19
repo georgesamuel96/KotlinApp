@@ -55,4 +55,10 @@ class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
         val password: String = et_password.text.toString()
         viewModel.onLoginButtonClick(email, password)
     }
+
+    fun onSignupButtonClick(view: View) {
+        Intent(this, SignupActivity::class.java).also {
+            startActivity(it)
+        }
+    }
 }

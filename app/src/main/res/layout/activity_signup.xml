@@ -5,6 +5,7 @@
     android:background="#E2E2E2"
     android:layout_height="match_parent"
     tools:context=".ui.auth.SignupActivity"
+    android:id="@+id/root_layout"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/et_name"
                 android:hint="Belal Khan"
                 android:inputType="text"
                 android:drawablePadding="16dp"
@@ -70,6 +72,7 @@
                 android:layout_height="match_parent"/>
 
             <EditText
+                android:id="@+id/et_email"
                 android:hint="belal@gmail.com"
                 android:inputType="textEmailAddress"
                 android:drawablePadding="16dp"
@@ -81,6 +84,7 @@
                 android:layout_height="match_parent"/>
 
             <EditText
+                android:id="@+id/et_password"
                 android:inputType="textPassword"
                 android:hint="password"
                 android:drawablePadding="16dp"
@@ -92,6 +96,7 @@
                 android:layout_height="match_parent"/>
 
             <EditText
+                android:id="@+id/et_confirm_pass"
                 android:inputType="textPassword"
                 android:hint="confirm password"
                 android:drawablePadding="16dp"
@@ -115,11 +120,13 @@
                 android:textAllCaps="false"
                 android:text="Sign Up"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:onClick="onSignupButtonClick"/>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_have_account"
             android:layout_marginTop="12dp"
             android:textColor="@color/colorPrimary"
             android:layout_centerHorizontal="true"
