@@ -14,10 +14,7 @@ import com.example.georgesamuel.kotlinapp.data.network.MyApi
 import com.example.georgesamuel.kotlinapp.data.network.ServiceBuilder
 import com.example.georgesamuel.kotlinapp.data.repositories.UserRepository
 import com.example.georgesamuel.kotlinapp.ui.home.HomeActivity
-import com.example.georgesamuel.kotlinapp.util.hide
-import com.example.georgesamuel.kotlinapp.util.show
-import com.example.georgesamuel.kotlinapp.util.snackbar
-import com.example.georgesamuel.kotlinapp.util.toast
+import com.example.georgesamuel.kotlinapp.util.*
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), AuthListener {
@@ -28,6 +25,8 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        Utils.context = applicationContext
+
         val myApi = ServiceBuilder.buildService(MyApi::class.java)
         val db = AppDatabase(this)
         val repository = UserRepository(myApi, db)
@@ -36,14 +35,12 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         viewModel = ViewModelProviders.of(this, factory).get(AuthViewModel::class.java)
         viewModel.authListener = this
         viewModel.getLoggedInUser().observe(this, Observer { user ->
-//            run {
                 if (user != null) {
                     Intent(this, HomeActivity::class.java).also {
                         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(it)
                     }
                 }
-//            }
         })
     }
 

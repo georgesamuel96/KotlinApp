@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.georgesamuel.kotlinapp.data.repositories.UserRepository
 import com.example.georgesamuel.kotlinapp.util.ApiException
 import com.example.georgesamuel.kotlinapp.util.Coroutines
+import com.example.georgesamuel.kotlinapp.util.NoInternetException
 
 class AuthViewModel(
     private val repository: UserRepository
@@ -27,6 +28,8 @@ class AuthViewModel(
                 }
                 authListener?.onFailure(authResponse.message!!)
             } catch (e: ApiException) {
+                authListener?.onFailure(e.message!!)
+            } catch (e: NoInternetException) {
                 authListener?.onFailure(e.message!!)
             }
         }
