@@ -24,10 +24,6 @@ class ProfileFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
     private val factory: ProfileViewModelFactory by instance()
 
-    companion object{
-        fun newInstance() = ProfileFragment()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
