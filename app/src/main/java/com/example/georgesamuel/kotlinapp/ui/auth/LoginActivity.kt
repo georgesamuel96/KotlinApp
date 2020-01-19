@@ -11,6 +11,7 @@ import com.example.georgesamuel.kotlinapp.R
 import com.example.georgesamuel.kotlinapp.data.db.AppDatabase
 import com.example.georgesamuel.kotlinapp.data.db.entities.User
 import com.example.georgesamuel.kotlinapp.data.network.MyApi
+import com.example.georgesamuel.kotlinapp.data.network.NetworkConnectionInterceptor
 import com.example.georgesamuel.kotlinapp.data.network.ServiceBuilder
 import com.example.georgesamuel.kotlinapp.data.repositories.UserRepository
 import com.example.georgesamuel.kotlinapp.ui.home.HomeActivity
@@ -25,9 +26,8 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        Utils.context = applicationContext
-
-        val myApi = ServiceBuilder.buildService(MyApi::class.java)
+        val networkConnectionInterceptor = NetworkConnectionInterceptor(this)
+        val myApi = ServiceBuilder.invoke(networkConnectionInterceptor)
         val db = AppDatabase(this)
         val repository = UserRepository(myApi, db)
         val factory = AuthViewModelVactory(repository)
