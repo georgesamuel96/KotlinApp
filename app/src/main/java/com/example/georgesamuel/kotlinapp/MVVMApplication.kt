@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.georgesamuel.kotlinapp.data.db.AppDatabase
 import com.example.georgesamuel.kotlinapp.data.network.NetworkConnectionInterceptor
 import com.example.georgesamuel.kotlinapp.data.network.ServiceBuilder
+import com.example.georgesamuel.kotlinapp.data.preferences.PreferenceProvider
 import com.example.georgesamuel.kotlinapp.data.repositories.QuoteRepository
 import com.example.georgesamuel.kotlinapp.data.repositories.UserRepository
 import com.example.georgesamuel.kotlinapp.ui.auth.AuthViewModelFactory
@@ -25,8 +26,9 @@ class MVVMApplication : Application(), KodeinAware {
         bind() from singleton { NetworkConnectionInterceptor(instance()) }
         bind() from singleton { ServiceBuilder(instance()) }
         bind() from singleton { AppDatabase(instance()) }
+        bind() from singleton { PreferenceProvider(instance()) }
         bind() from singleton { UserRepository(instance(), instance()) }
-        bind() from singleton { QuoteRepository(instance(), instance()) }
+        bind() from singleton { QuoteRepository(instance(), instance(), instance()) }
         bind() from provider { AuthViewModelFactory(instance()) }
         bind() from provider { ProfileViewModelFactory(instance()) }
         bind() from provider { QuotesViewModelFactory(instance()) }
