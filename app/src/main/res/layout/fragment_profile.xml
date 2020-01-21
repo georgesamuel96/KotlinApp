@@ -26,7 +26,7 @@
             android:layout_gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorPrimaryDark"
-            tools:text="Belal Khan" />
+            tools:text="George Samuel" />
 
         <TextView
             android:id="@+id/tv_email"
@@ -35,7 +35,7 @@
             android:layout_gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorPrimaryDark"
-            tools:text="probelalkhan@gmail.com" />
+            tools:text="george@gmail.com" />
 
 
     </LinearLayout>

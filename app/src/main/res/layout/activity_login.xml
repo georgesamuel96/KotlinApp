@@ -62,7 +62,7 @@
 
             <EditText
                 android:id="@+id/et_email"
-                android:hint="belal@gmail.com"
+                android:hint="george@gmail.com"
                 android:inputType="textEmailAddress"
                 android:drawablePadding="16dp"
                 android:drawableLeft="@drawable/ic_email"
